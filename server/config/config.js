@@ -13,7 +13,7 @@ let urlDB = ''
 
 process.env.NODE_ENV === 'dev' ?  
     urlDB = 'mongodb://localhost:27017/cafe' : 
-    urlDB =process.env.NODE_ENV.Mlab_Connect
+    urlDB =process.env.Mlab_Connect
 
 
 process.env.urlDB = urlDB
