@@ -1,8 +1,9 @@
 require('./config/config')
 
 const express = require('express')
-const app = express()
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
+const app = express()
 const port = process.env.PORT
 
 // parse application/x-www-form-urlencoded
@@ -10,17 +11,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
  
 // parse application/json
 app.use(bodyParser.json())
+
+app.use(require('./routes/user'))
  
-app.get('/', (req, res) => {
-  res.json('Hello World')
-})
-app.post('/usuario', (req, res) => {
-    const body = req.body
-  res.json({
-      'persona': body
-  })
-})
+
  
+mongoose.connect(process.env.urlDB,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}, (err, res) => {
+  if (err) throw err
+
+  console.log('Base de datos online');
+
+});
+
 app.listen(port, () => {
     console.log(`escuchando el puerto ${port}`);
 })
