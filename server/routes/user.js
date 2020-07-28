@@ -1,7 +1,10 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const _ = require('underscore')
+
+
 const Usuario = require('../models/users')
+const {autenticacion, autenticacionAdmin_Role} = require('../middlewares/autenticacion')
 
 const app = express()
 
@@ -12,7 +15,7 @@ const options = {
 }
 
 
-app.get('/usuario', (req, res) => {
+app.get('/usuario', autenticacion ,(req, res) => {
     const desde = Number(req.query.desde) || 0
     const limit = Number(req.query.limit) || 5
     
@@ -46,7 +49,7 @@ app.get('/usuario', (req, res) => {
 })
 
 
-app.put('/usuario/:id', (req, res) => {
+app.put('/usuario/:id', [autenticacion, autenticacionAdmin_Role] ,(req, res) => {
     const id = req.params.id
    
 
@@ -72,7 +75,7 @@ app.put('/usuario/:id', (req, res) => {
 
 
 
-app.post('/usuario', (req, res) => {
+app.post('/usuario', [autenticacion, autenticacionAdmin_Role], (req, res) => {
     const body = req.body
 
     let usuario = new Usuario({
@@ -100,7 +103,7 @@ app.post('/usuario', (req, res) => {
     
 })
 
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/usuario/:id', [autenticacion, autenticacionAdmin_Role], (req, res) => {
     const id = req.params.id
 
     Usuario.findByIdAndUpdate(id, {estado: false}, options, (err, usuarioDeleted) => {
@@ -114,26 +117,7 @@ app.delete('/usuario/:id', (req, res) => {
                 usuarioDeleted
             })
     })
-
-    // Usuario.findByIdAndRemove(id, (err, usuairoDeleted) => {
-
-    //     !usuairoDeleted ? 
-    //         res.status(400).json({
-    //             ok: false,
-    //             err: 'El usuario no existe'
-    //         }) : null
-
-    //     err ? res.status(400).json({
-    //             ok: false,
-    //             err
-    //         })
-    //         :  res.json({
-    //             ok: true,
-    //             usuario: usuairoDeleted
-    //         })
-
-        
-    // })
+  
 })
 
 module.exports = app;
