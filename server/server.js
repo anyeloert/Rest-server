@@ -4,6 +4,7 @@ require('./config/config')
 const express = require('express')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
+const path = require('path')
 const app = express()
 const port = process.env.PORT
 
@@ -17,6 +18,8 @@ app.use(bodyParser.json())
 
 //configuracion de rutas
 app.use(require('./routes/index'))
+
+app.use(express.static(path.resolve(__dirname , '../public/')))
 
 
 mongoose.connect(process.env.urlDB,{
