@@ -15,7 +15,7 @@ const options = {
 }
 
 
-app.get('/usuario', autenticacion ,(req, res) => {
+app.get('/usuario',(req, res) => {
     const desde = Number(req.query.desde) || 0
     const limit = Number(req.query.limit) || 5
     
