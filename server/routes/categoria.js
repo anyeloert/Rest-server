@@ -8,7 +8,10 @@ const {autenticacion, autenticacionAdmin_Role} = require('../middlewares/autenti
 
 app.get('/categorias', autenticacion, (req, res) => {
 
-    Categoria.find({}, (err, categoriasDB) => {
+    Categoria.find({})
+    .sort('descripcion')
+    .populate('usuario', 'nombre email')
+    .exec ((err, categoriasDB) => {
         err 
             ? res.status(400).json({
                 ok: false,

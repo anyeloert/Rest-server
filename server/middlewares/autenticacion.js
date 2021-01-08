@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 
 const autenticacion = (req, res, next) => {
     const token = req.get('token')
+    console.log(req);
     
     jwt.verify(token, process.env.SEED_TOKEN, (err, decoded) => {
-        console.log(decoded.usuario.role);
         err ?
             res.status(401).json({
                 ok: false,

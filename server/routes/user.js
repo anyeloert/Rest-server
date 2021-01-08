@@ -15,7 +15,7 @@ const options = {
 }
 
 
-app.get('/usuario',(req, res) => {
+app.get('/usuario', autenticacion, (req, res) => {
     const desde = Number(req.query.desde) || 0
     const limit = Number(req.query.limit) || 5
     
@@ -47,6 +47,9 @@ app.get('/usuario',(req, res) => {
 
     })
 })
+
+
+
 
 
 app.put('/usuario/:id', [autenticacion, autenticacionAdmin_Role] ,(req, res) => {
